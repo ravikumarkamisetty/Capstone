@@ -1,4 +1,8 @@
 name: Playwright Tests
+  run: npx playwright test
+  env:
+    GITHUB_TOKEN: ${{ secrets.PAT }}
+    GITHUB_PAT: ${{ secrets.PAT }}
 on:
   push:
     branches: [ main, master ]
