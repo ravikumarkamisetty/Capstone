@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.PAT }}
-      GITHUB_PAT: ${{ secrets.PAT }}
+      GH_PAT: ${{ secrets.GH_PAT }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
