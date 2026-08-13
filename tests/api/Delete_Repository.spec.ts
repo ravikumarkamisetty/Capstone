@@ -5,7 +5,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const GITHUB_API_BASE_URL = 'https://api.github.com';
 const GITHUB_USERNAME = 'ravikumarkamisetty';
-const REPO_NAME = 'test';
+const REPO_NAME = 'playwright-repo-1786517081386-b6ajd5';
 
 test('DELETE /repos/{ravikumarkamisetty}/{test} deletes the repository', async ({ request }) => {
   const token = process.env.GH_PAT;

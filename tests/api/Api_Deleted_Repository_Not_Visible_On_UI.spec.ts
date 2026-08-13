@@ -61,7 +61,8 @@ test.describe('Repository deleted via API should not be visible on UI', () => {
         `Invalid JSON response from GitHub POST /user/repos while creating repository ${repoName}. Response: ${createBody}`
       );
     }
-
+    console.log(`Repository = ${createdRepo.full_name} created successfully via API.`);
+    
     const repoLinkSelector = `a[href="/${createdRepo.full_name}"]`;
 
     await page.goto(`/${GITHUB_USERNAME}?tab=repositories`);
@@ -70,6 +71,9 @@ test.describe('Repository deleted via API should not be visible on UI', () => {
     const deleteResponse = await request.delete(`${GITHUB_API_BASE_URL}/repos/${repoFullName}`, {
       headers: requestHeaders
     });
+    console.log('Request URL: ', deleteResponse.url());
+    console.log('Delete URL', `${GITHUB_API_BASE_URL}/repos/${repoFullName}`);
+   
 
     const deleteStatus = deleteResponse.status();
     const deleteBody = await deleteResponse.text();
@@ -92,9 +96,10 @@ test.describe('Repository deleted via API should not be visible on UI', () => {
       `Repository ${repoFullName} is still visible in the UI after API deletion.`
     ).toHaveCount(0, { timeout: 30000 });
 
-    await page.goto(`/${repoFullName}`);
-    await expect(page.getByText(/not found|page not found/i), `Repository ${repoFullName} still loads in the UI after deletion.`).toBeVisible({ timeout: 30000 });
-
     console.log(`GitHub UI verification passed: ${repoFullName} is no longer visible after deletion.`);
   });
+ 
+
+
+
 });

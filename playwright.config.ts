@@ -30,6 +30,7 @@ export default defineConfig({
     'Git-Hub-Automation/tests/**/*.spec.ts',
     'OrangeHRM_POM/tests/**/*.spec.ts'
   ],
+   
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -55,6 +56,8 @@ export default defineConfig({
     baseURL: 'https://github.com',
     //storageState: 'playwright/.auth/user.json'
     storageState: AUTH_STATE_PATH,
+
+    ignoreHTTPSErrors: true,
   },
   reporter: [['html', { outputFolder: 'playwright-report' }]],
  
