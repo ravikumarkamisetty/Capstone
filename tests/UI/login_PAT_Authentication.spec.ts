@@ -6,13 +6,13 @@ import { RepositoryPage } from '../../pages/RepositoryPage';
 import { ProfilePage } from '../../pages/ProfilePage';
 
 const username = process.env.GITHUB_USERNAME;
-const token = process.env.GITHUB_PAT;
+const token = process.env.GH_PAT;
 const repoName = process.env.repoName ?? 'Capstone-Project-Repo'; // Use a non-undefined fallback for repository name
 
 
 test.describe('GitHub PAT Authentication Tests', () => {
     test.beforeAll(async ({ playwright }) => {
-        test.skip(!token || !token.trim(), 'GITHUB_PAT is not configured for PAT-based UI authentication.');
+        test.skip(!token || !token.trim(), 'GH_PAT is not configured for PAT-based UI authentication.');
 
         if (!fs.existsSync(AUTH_STATE_PATH)) {
         console.log('Generating UI Session Context using Personal Access Token...');

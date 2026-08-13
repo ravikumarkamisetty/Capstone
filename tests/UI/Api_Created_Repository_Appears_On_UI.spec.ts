@@ -12,11 +12,11 @@ test.describe('Repository created via API should appear on UI', () => {
   test.use({ storageState: AUTH_STATE_PATH });
 
   test('Repo created through GitHub API is visible in the GitHub UI', async ({ page, request }) => {
-    const token = process.env.GITHUB_PAT;
+    const token = process.env.GH_PAT;
 
     test.skip(
       !token || !token.trim(),
-      'Missing GitHub PAT. Set GITHUB_PAT before running this authenticated GitHub API test.'
+      'Missing GitHub PAT. Set GH_PAT before running this authenticated GitHub API test.'
     );
 
     const repoName = `${REPO_NAME_PREFIX}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
