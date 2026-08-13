@@ -7,11 +7,11 @@ const GITHUB_API_BASE_URL = 'https://api.github.com';
 const REPO_NAME_PREFIX = 'playwright-repo';
 
 test('POST /user/repos creates a GitHub repository for the authenticated user', async ({ request }) => {
-  const token = process.env.GITHUB_PAT || process.env.GITHUB_TOKEN;
+  const token = process.env.GITHUB_PAT;
 
   if (!token || !token.trim()) {
     const missingTokenMessage =
-      'Missing GitHub PAT. Set GITHUB_PAT or GITHUB_TOKEN before running this authenticated GitHub API test.';
+      'Missing GitHub PAT. Set GITHUB_PAT before running this authenticated GitHub API test.';
     console.error(missingTokenMessage);
     throw new Error(missingTokenMessage);
   }

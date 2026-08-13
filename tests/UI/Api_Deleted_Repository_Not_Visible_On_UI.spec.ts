@@ -12,11 +12,11 @@ test.describe('Repository deleted via API should not be visible on UI', () => {
   test.use({ storageState: AUTH_STATE_PATH });
 
   test('Repo deleted through GitHub API is not visible in the GitHub UI', async ({ page, request }) => {
-    const token = process.env.GITHUB_PAT || process.env.GITHUB_TOKEN;
+    const token = process.env.GITHUB_PAT;
 
     test.skip(
       !token || !token.trim(),
-      'Missing GitHub PAT. Set GITHUB_PAT or GITHUB_TOKEN before running this authenticated GitHub API test.'
+      'Missing GitHub PAT. Set GITHUB_PAT before running this authenticated GitHub API test.'
     );
 
     const repoName = `${REPO_NAME_PREFIX}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;

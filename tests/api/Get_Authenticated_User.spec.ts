@@ -5,11 +5,11 @@ const GITHUB_USERNAME = 'ravikumarkamisetty';
 const GITHUB_PROFILE_URL = `https://github.com/${GITHUB_USERNAME}`;
 
 test('GET /user fetches authenticated GitHub user details for ravikumarkamisetty', async ({ request }) => {
-  const token = process.env.GITHUB_PAT || process.env.GITHUB_TOKEN;
+  const token = process.env.GITHUB_PAT;
 
   if (!token || !token.trim()) {
     const missingTokenMessage =
-      'Missing GitHub PAT. Set GITHUB_PAT or GITHUB_TOKEN before running this authenticated GitHub API test.';
+      'Missing GitHub PAT. Set GITHUB_PAT before running this authenticated GitHub API test.';
     console.error(missingTokenMessage);
     throw new Error(missingTokenMessage);
   }
