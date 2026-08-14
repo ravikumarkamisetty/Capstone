@@ -9,30 +9,24 @@ import { ProfilePage } from '../../pages/ProfilePage';
 let repo: RepositoryPage;
 
 const username = process.env.GITHUB_USERNAME;
-//const TOKEN = process.env.GH_PAT;
 const password = process.env.GITHUB_PASSWORD;
 const repoName = process.env.repoName ? process.env.repoName : 'Capstone-Project-Repo';
+const login_url = process.env.login_url ? process.env.login_url : 'https://github.com/login';
+const search_url = process.env.search_url ? process.env.search_url : '/search?q=playwright&type=repositories';
 
 test.describe('GitHub Login Tests', () => {
     test.beforeAll(async ({ playwright }) => {
 
         if (!fs.existsSync(AUTH_STATE_PATH)) {
-            console.log('Generating UI Session Context using Personal Access Token...');
- 
+             
             // 1. Launch a headless browser and page context instance
             const browser = await playwright.chromium.launch();
             const context = await browser.newContext();
             const page = await context.newPage();
- 
-            // // 2. Set the PAT token header into the browser context engine
-            // await context.setExtraHTTPHeaders({
-            //     'Authorization': `Bearer ${TOKEN}`,
-            //     'Accept': 'application/vnd.github+json'
-            // });
- 
-            // 3. Navigate to a GitHub endpoint that forces session cookie generation
+
+            // 2. Navigate to a GitHub endpoint that forces session cookie generation
             // This tricks the browser into mapping session cookies to github.com
-            await page.goto('https://github.com/login');
+            await page.goto(login_url);
                 const loginPage = new LoginPage(page);
                 
                 //await loginPage.navigateToApplication(appUrl);
@@ -96,7 +90,7 @@ test.describe('GitHub Login Tests', () => {
     });
 
     test('TC005 - Search for a public repository and verify results', async ({ page }) => {
-        await page.goto('/search?q=playwright&type=repositories');
+        await page.goto(search_url);
         await expect(page).toHaveURL(/\/search\?q=playwright&type=repositories/i);
 
         await expect(page.getByRole('heading', { name: /Search results/i })).toBeVisible();

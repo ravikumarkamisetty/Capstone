@@ -3,11 +3,12 @@ import process from 'process';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-const GITHUB_API_BASE_URL = 'https://api.github.com';
-const REPO_NAME_PREFIX = 'playwright-repo';
+const GITHUB_API_BASE_URL = process.env.GITHUB_API_BASE_URL || 'https://api.github.com';
+const REPO_NAME_PREFIX = process.env.REPO_NAME_PREFIX || 'playwright-repo';
+const token = process.env.GH_PAT;
 
 test('POST /user/repos creates a GitHub repository for the authenticated user', async ({ request }) => {
-  const token = process.env.GH_PAT;
+
   //print token to console for debugging purposes
   console.log('GitHub PAT:', token);
 
@@ -45,11 +46,6 @@ test('POST /user/repos creates a GitHub repository for the authenticated user', 
     const responseHeaders = response.headers();
     const responseBody = await response.text();
 
-    // if (statusCode !== 201) {
-    //   console.error(
-    //     `GitHub POST /user/repos failed while creating repository ${repoName}. Status: ${statusCode} ${response.statusText()}. Headers: ${JSON.stringify(responseHeaders, null, 2)}. Response: ${responseBody}`
-    //   );
-    // }
 
     expect(
       statusCode,
@@ -62,10 +58,6 @@ test('POST /user/repos creates a GitHub repository for the authenticated user', 
       `Unexpected content-type received for GitHub POST /user/repos: ${contentType}. Response: ${responseBody}`
     ).toContain('application/json');
 
-    // expect(
-    //   responseHeaders['x-github-request-id'],
-    //   `Missing GitHub request ID header for POST /user/repos. Response headers: ${JSON.stringify(responseHeaders, null, 2)}`
-    // ).toBeTruthy();
 
     expect(
       responseHeaders.location,
@@ -81,8 +73,7 @@ test('POST /user/repos creates a GitHub repository for the authenticated user', 
       );
     }
 
-    createdRepo = repo;
-
+    //Validations
     expect(repo, `GitHub POST /user/repos returned empty or invalid body. Response: ${responseBody}`).toBeTruthy();
     expect(repo).toHaveProperty('id');
     expect(repo).toHaveProperty('name');

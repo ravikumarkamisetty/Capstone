@@ -5,15 +5,14 @@ import { AUTH_STATE_PATH } from '../../playwright.config';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'ravikumarkamisetty';
-const GITHUB_API_BASE_URL = 'https://api.github.com';
-const REPO_NAME_PREFIX = 'ui-api-delete-visibility';
+const GITHUB_API_BASE_URL = process.env.GITHUB_API_BASE_URL || 'https://api.github.com';
+const REPO_NAME_PREFIX = process.env.REPO_NAME_PREFIX || 'ui-api-delete-visibility';
+const token = process.env.GH_PAT;
 
 test.describe('Repository deleted via API should not be visible on UI', () => {
   test.use({ storageState: AUTH_STATE_PATH });
 
   test('Repo deleted through GitHub API is not visible in the GitHub UI', async ({ page, request }) => {
-    const token = process.env.GH_PAT;
-
     test.skip(
       !token || !token.trim(),
       'Missing GitHub PAT. Set GH_PAT before running this authenticated GitHub API test.'

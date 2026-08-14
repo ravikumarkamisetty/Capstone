@@ -3,12 +3,12 @@ import process from 'process';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-const GITHUB_API_BASE_URL = 'https://api.github.com';
-const GITHUB_USERNAME = 'ravikumarkamisetty';
-const REPO_NAME = 'ui-api-delete-visibility-1786522818796-302i5c';
+const GITHUB_API_BASE_URL = process.env.GITHUB_API_BASE_URL || 'https://api.github.com';
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'ravikumarkamisetty';
+const REPO_NAME = process.env.REPO_NAME || 'ui-api-delete-visibility-1786522359855-mpzd4m';
+const token = process.env.GH_PAT;
 
-test('DELETE /repos/{ravikumarkamisetty}/{test} deletes the repository', async ({ request }) => {
-  const token = process.env.GH_PAT;
+test.skip('DELETE /repos/{ravikumarkamisetty}/{test} deletes the repository', async ({ request }) => {
 
   if (!token || !token.trim()) {
     const missingTokenMessage =

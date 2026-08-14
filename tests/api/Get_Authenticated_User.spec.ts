@@ -1,11 +1,13 @@
 import { test, expect } from '@playwright/test';
 import process from 'process';
 
-const GITHUB_USERNAME = 'ravikumarkamisetty';
-const GITHUB_PROFILE_URL = `https://github.com/${GITHUB_USERNAME}`;
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'ravikumarkamisetty';
+const GITHUB_PROFILE_URL=process.env.GITHUB_PROFILE_URL;
+const user_url = process.env.GITHUB_API_USER_URL ? process.env.GITHUB_API_USER_URL : 'https://api.github.com/user';
+const GIT_HUB_API_USER_PROFILE_URL = process.env.GITHUB_API_USER_PROFILE_URL ? process.env.GITHUB_API_USER_PROFILE_URL : 'https://api.github.com/users/ravikumarkamisetty';
 
+const token = process.env.GH_PAT;
 test('GET /user fetches authenticated GitHub user details for ravikumarkamisetty', async ({ request }) => {
-  const token = process.env.GH_PAT;
 
   if (!token || !token.trim()) {
     const missingTokenMessage =
@@ -14,7 +16,7 @@ test('GET /user fetches authenticated GitHub user details for ravikumarkamisetty
     throw new Error(missingTokenMessage);
   }
 
-  const response = await request.get('https://api.github.com/user', {
+  const response = await request.get(user_url, {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: 'application/vnd.github+json',
@@ -71,8 +73,8 @@ test('GET /user fetches authenticated GitHub user details for ravikumarkamisetty
 
   expect(
     user.url,
-    `Expected GitHub user API URL to be https://api.github.com/users/${GITHUB_USERNAME}, but received ${user.url ?? 'undefined'}. Body: ${responseBody}`
-  ).toBe(`https://api.github.com/users/${GITHUB_USERNAME}`);
+    `Expected GitHub user API URL to be ${GIT_HUB_API_USER_PROFILE_URL}, but received ${user.url ?? 'undefined'}. Body: ${responseBody}`
+  ).toBe(GIT_HUB_API_USER_PROFILE_URL);
 
   expect(
     user.html_url,

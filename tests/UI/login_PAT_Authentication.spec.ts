@@ -8,8 +8,8 @@ import { ProfilePage } from '../../pages/ProfilePage';
 const username = process.env.GITHUB_USERNAME;
 const token = process.env.GH_PAT;
 const repoName = process.env.repoName ? process.env.repoName : 'Capstone-Project-Repo';
-//const repoName = process.env.repoName ?? 'Capstone-Project-Repo'; // Use a non-undefined fallback for repository name
-
+const login_url = process.env.login_url ? process.env.login_url : 'https://github.com/login';
+const search_url = process.env.search_url ? process.env.search_url : '/search?q=playwright&type=repositories';
 
 test.describe('GitHub PAT Authentication Tests', () => {
     test.beforeAll(async ({ playwright }) => {
@@ -27,8 +27,8 @@ test.describe('GitHub PAT Authentication Tests', () => {
             Accept: 'application/vnd.github+json'
         });
 
-        // await page.goto('https://github.com/login', { waitUntil: 'domcontentloaded' });
-        // await page.goto('https://github.com/', { waitUntil: 'domcontentloaded' });
+        await page.goto(login_url, { waitUntil: 'domcontentloaded' });
+        await page.goto('/', { waitUntil: 'domcontentloaded' });
 
         await context.storageState({ path: AUTH_STATE_PATH });
         console.log('UI Storage State saved successfully via PAT authentication handshake!');
@@ -40,7 +40,7 @@ test.describe('GitHub PAT Authentication Tests', () => {
     test('TC001 - PAT authenticates the GitHub UI session', async ({ page }) => {
         test.skip(!username || username.trim().length === 0, 'GITHUB_USERNAME must be configured for UI validation.');
 
-        await page.goto('https://github.com/', { waitUntil: 'domcontentloaded' });
+        await page.goto('/', { waitUntil: 'domcontentloaded' });
 
         await expect(page, 'GitHub home page should load with a valid authenticated session.').toHaveURL(/github.com\//i, { timeout: 30000 });
         await expect(
@@ -61,7 +61,7 @@ test.describe('GitHub PAT Authentication Tests', () => {
         Accept: 'application/vnd.github+json'
         });
 
-        await page.goto('https://github.com/', { waitUntil: 'domcontentloaded' });
+        await page.goto('/', { waitUntil: 'domcontentloaded' });
 
         await expect(page, 'GitHub homepage should load even with an invalid PAT, but it should not show the authenticated account.').toHaveURL(/github.com\//i, { timeout: 30000 });
         await expect(page.locator('body'), 'The invalid PAT should not render the signed-in GitHub username on the page.').not.toContainText(username!, { timeout: 30000 });
@@ -88,7 +88,7 @@ test.describe('GitHub PAT Authentication Tests', () => {
         });
     
         test('TC005 - Search for a public repository and verify results', async ({ page }) => {
-            await page.goto('/search?q=playwright&type=repositories');
+            await page.goto(search_url);
             await expect(page).toHaveURL(/\/search\?q=playwright&type=repositories/i);
     
             await expect(page.getByRole('heading', { name: /Search results/i })).toBeVisible();
