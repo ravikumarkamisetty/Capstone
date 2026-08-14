@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import { AUTH_STATE_PATH } from '../../playwright.config';
-import { DashboardPage } from '../../pages/DashboardPage';
 import { RepositoryPage } from '../../pages/RepositoryPage';
 import { ProfilePage } from '../../pages/ProfilePage';
 

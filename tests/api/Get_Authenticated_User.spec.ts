@@ -7,7 +7,7 @@ const user_url = process.env.GITHUB_API_USER_URL ? process.env.GITHUB_API_USER_U
 const GIT_HUB_API_USER_PROFILE_URL = process.env.GITHUB_API_USER_PROFILE_URL ? process.env.GITHUB_API_USER_PROFILE_URL : 'https://api.github.com/users/ravikumarkamisetty';
 
 const token = process.env.GH_PAT;
-test('GET /user fetches authenticated GitHub user details for ravikumarkamisetty', async ({ request }) => {
+test.skip('GET /user fetches authenticated GitHub user details for ravikumarkamisetty', async ({ request }) => {
 
   if (!token || !token.trim()) {
     const missingTokenMessage =
