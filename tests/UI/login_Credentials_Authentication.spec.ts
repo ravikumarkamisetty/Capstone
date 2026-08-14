@@ -85,9 +85,7 @@ test.describe('GitHub Login Tests', () => {
         const repository = new RepositoryPage(page);
         await repository.navigateToNewRepoFlow();        
         await repository.createNewRepositoryFromUI(repoName, 'Automation System create New repository Description');
- 
-        // POM Verification with explicit custom error messages
-        //await repository.verifyRepositoryInitializedCleanly(repoName);
+       
     });
 
     test('TC004 - Profile: Visit profile; validate displayed user info', async ({ page }) => {
