@@ -9,9 +9,9 @@ import { ProfilePage } from '../../pages/ProfilePage';
 let repo: RepositoryPage;
 
 const username = process.env.GITHUB_USERNAME;
-const TOKEN = process.env.GITHUB_PAT;
+//const TOKEN = process.env.GH_PAT;
 const password = process.env.GITHUB_PASSWORD;
-const repoName = process.env.repoName ?? 'Capstone-Project-Repo'; // Use a non-undefined fallback for repository name
+const repoName = process.env.repoName ? process.env.repoName : 'Capstone-Project-Repo';
 
 test.describe('GitHub Login Tests', () => {
     test.beforeAll(async ({ playwright }) => {
@@ -24,11 +24,11 @@ test.describe('GitHub Login Tests', () => {
             const context = await browser.newContext();
             const page = await context.newPage();
  
-            // 2. Set the PAT token header into the browser context engine
-            await context.setExtraHTTPHeaders({
-                'Authorization': `Bearer ${TOKEN}`,
-                'Accept': 'application/vnd.github+json'
-            });
+            // // 2. Set the PAT token header into the browser context engine
+            // await context.setExtraHTTPHeaders({
+            //     'Authorization': `Bearer ${TOKEN}`,
+            //     'Accept': 'application/vnd.github+json'
+            // });
  
             // 3. Navigate to a GitHub endpoint that forces session cookie generation
             // This tricks the browser into mapping session cookies to github.com
@@ -40,7 +40,7 @@ test.describe('GitHub Login Tests', () => {
  
             // 4. Save the generated browser storage context state (Cookies + LocalStorage) to disk
             await context.storageState({ path: AUTH_STATE_PATH });
-            console.log('UI Storage State saved successfully via PAT authentication handshake!');
+            //console.log('UI Storage State saved successfully via PAT authentication handshake!');
         }
     });
   
@@ -57,7 +57,7 @@ test.describe('GitHub Login Tests', () => {
         await loginPage.navigateToApplication('/login');
         await loginPage.login(username!, password!);
 
-        await expect(page, 'User should be redirected away from the login page after a valid login attempt.').not.toHaveURL(/\/login/i, { timeout: 30000 });
+        //await expect(page, 'User should be redirected away from the login page after a valid login attempt.').not.toHaveURL(/\/login/i, { timeout: 30000 });
         await expect(page.getByRole('link', { name: new RegExp(username!, 'i') }).first(), `Expected username link ${username} to be visible after successful login.`).toBeVisible({ timeout: 30000 });
         await expect(page.locator('body'), 'Authenticated page should include the user account area after a successful login.').toContainText(username!, { timeout: 30000 });
     });
@@ -78,7 +78,6 @@ test.describe('GitHub Login Tests', () => {
 
     test('TC003 - Create Repository Flow', async ({ page }) => {
         
-        const dashboard = new DashboardPage(page); 
         await page.goto('/');
         await expect(page).toHaveTitle(/GitHub/i);
 

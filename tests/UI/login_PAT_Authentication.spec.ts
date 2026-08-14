@@ -7,7 +7,8 @@ import { ProfilePage } from '../../pages/ProfilePage';
 
 const username = process.env.GITHUB_USERNAME;
 const token = process.env.GH_PAT;
-const repoName = process.env.repoName ?? 'Capstone-Project-Repo'; // Use a non-undefined fallback for repository name
+const repoName = process.env.repoName ? process.env.repoName : 'Capstone-Project-Repo';
+//const repoName = process.env.repoName ?? 'Capstone-Project-Repo'; // Use a non-undefined fallback for repository name
 
 
 test.describe('GitHub PAT Authentication Tests', () => {
@@ -26,8 +27,8 @@ test.describe('GitHub PAT Authentication Tests', () => {
             Accept: 'application/vnd.github+json'
         });
 
-        await page.goto('https://github.com/login', { waitUntil: 'domcontentloaded' });
-        await page.goto('https://github.com/', { waitUntil: 'domcontentloaded' });
+        // await page.goto('https://github.com/login', { waitUntil: 'domcontentloaded' });
+        // await page.goto('https://github.com/', { waitUntil: 'domcontentloaded' });
 
         await context.storageState({ path: AUTH_STATE_PATH });
         console.log('UI Storage State saved successfully via PAT authentication handshake!');
@@ -48,7 +49,7 @@ test.describe('GitHub PAT Authentication Tests', () => {
         ).toBeVisible({ timeout: 30000 });
         await expect(page.locator('body'), 'Authenticated page should include the signed-in account context.').toContainText(username!, { timeout: 30000 });
     });
-    test.use({ storageState: AUTH_STATE_PATH });
+   
     test('TC002 - Invalid PAT does not authenticate the GitHub UI', async ({ browser }) => {
         test.skip(!username || username.trim().length === 0, 'GITHUB_USERNAME must be configured for PAT invalid-auth validation.');
 
@@ -68,7 +69,7 @@ test.describe('GitHub PAT Authentication Tests', () => {
 
     test('TC003 - Create Repository Flow', async ({ page }) => {
             
-            const dashboard = new DashboardPage(page); 
+            //const dashboard = new DashboardPage(page); 
             await page.goto('/');
             await expect(page).toHaveTitle(/GitHub/i);
 

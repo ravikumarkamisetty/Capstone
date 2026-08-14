@@ -9,7 +9,6 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.PAT }}
       GH_PAT: ${{ secrets.GH_PAT }}
     steps:
     - uses: actions/checkout@v4

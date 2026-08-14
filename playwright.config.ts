@@ -36,7 +36,7 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 2,
+  retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 2 : 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -54,9 +54,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',  
     video: 'retain-on-failure',
     baseURL: 'https://github.com',
-    //storageState: 'playwright/.auth/user.json'
     storageState: AUTH_STATE_PATH,
-
     ignoreHTTPSErrors: true,
   },
   reporter: [['html', { outputFolder: 'playwright-report' }]],
